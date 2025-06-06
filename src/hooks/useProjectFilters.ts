@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { ProjectFilters } from "../types/project.js";
 
-const DEFAULT_FILTERS = {
+const DEFAULT_FILTERS: ProjectFilters = {
     rag: "all",
     executionState: "all",
     organization: "all",

@@ -1,4 +1,6 @@
-export function filterProjects(projects, filters) {
+import { Project, ProjectFilters, PortfolioStats } from '../types/project.js';
+
+export function filterProjects(projects: Project[], filters: ProjectFilters): Project[] {
     return projects.filter((project) => {
         return (
             (filters.rag === "all" || project.rag === filters.rag) &&
@@ -13,7 +15,7 @@ export function filterProjects(projects, filters) {
     });
 }
 
-export function calculatePortfolioStats(projects) {
+export function calculatePortfolioStats(projects: Project[]): PortfolioStats {
     return {
         totalProjects: projects.length,
         total2024Live: projects.reduce((sum, p) => sum + (p.financials.live2024 || 0), 0),

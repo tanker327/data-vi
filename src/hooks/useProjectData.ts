@@ -1,16 +1,17 @@
 import { useMemo } from "react";
+import { Project, ProjectFilters, PositionedProject, PortfolioStats } from "../types/project.js";
 import { generateProjectData } from "../data/projectData.js";
 import { filterProjects, calculatePortfolioStats } from "../utils/filterUtils.js";
 import { calculateProjectPosition } from "../utils/coordinateUtils.js";
 
-export function useProjectData() {
+export function useProjectData(): Project[] {
     // Remove caching to see changes immediately during development
     const projects = generateProjectData();
 
     return projects;
 }
 
-export function useFilteredProjects(projects, filters) {
+export function useFilteredProjects(projects: Project[], filters: ProjectFilters): Project[] {
     const filteredProjects = useMemo(() => {
         return filterProjects(projects, filters);
     }, [projects, filters]);
@@ -18,7 +19,7 @@ export function useFilteredProjects(projects, filters) {
     return filteredProjects;
 }
 
-export function usePositionedProjects(filteredProjects) {
+export function usePositionedProjects(filteredProjects: Project[]): PositionedProject[] {
     const positionedProjects = useMemo(() => {
         return filteredProjects.map((project) => {
             const position = calculateProjectPosition(project);
@@ -35,7 +36,7 @@ export function usePositionedProjects(filteredProjects) {
     return positionedProjects;
 }
 
-export function usePortfolioStats(filteredProjects) {
+export function usePortfolioStats(filteredProjects: Project[]): PortfolioStats {
     const stats = useMemo(() => {
         return calculatePortfolioStats(filteredProjects);
     }, [filteredProjects]);

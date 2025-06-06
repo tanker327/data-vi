@@ -1,5 +1,6 @@
 import React, { useRef, useMemo } from "react";
 import { Text, Line } from "@react-three/drei";
+import { Group } from "three";
 import { GRID_COLORS } from "../../constants/colors.js";
 import { 
     convertCoordinateToDateLabel, 
@@ -7,11 +8,21 @@ import {
     convertCoordinateToOrgLabel 
 } from "../../utils/coordinateUtils.js";
 
-export default function CoordinateSystem({ range = 10 }) {
-    const gridRef = useRef();
+interface CoordinateSystemProps {
+    range?: number;
+}
+
+export default function CoordinateSystem({ range = 10 }: CoordinateSystemProps) {
+    const gridRef = useRef<Group>(null);
+
+    interface GridLine {
+        points: [number, number, number][];
+        color: string;
+        opacity: number;
+    }
 
     const gridLines = useMemo(() => {
-        const lines = [];
+        const lines: GridLine[] = [];
 
         // X-axis grid lines (red)
         for (let i = -range; i <= range; i += 2) {

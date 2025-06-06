@@ -1,13 +1,24 @@
 import React from "react";
+import { PortfolioStats } from "../../types/project.js";
 
-const StatItem = ({ label, value, colorClass = "text-cyan-400" }) => (
+interface StatItemProps {
+    label: string;
+    value: string | number;
+    colorClass?: string;
+}
+
+const StatItem: React.FC<StatItemProps> = ({ label, value, colorClass = "text-cyan-400" }) => (
     <div>
         <span className={colorClass}>{label}:</span>{" "}
         <span className="font-bold">{value}</span>
     </div>
 );
 
-export default function StatsPanel({ stats }) {
+interface StatsPanelProps {
+    stats: PortfolioStats;
+}
+
+export default function StatsPanel({ stats }: StatsPanelProps) {
     return (
         <div className="absolute top-4 right-4 z-10 bg-black bg-opacity-90 text-white p-4 rounded-xl border border-green-500 shadow-2xl">
             <h4 className="font-bold text-lg mb-2 text-green-300">

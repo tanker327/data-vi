@@ -1,6 +1,13 @@
 import React from "react";
 
-const LegendItem = ({ icon, label, description, colorClass = "text-cyan-400" }) => (
+interface LegendItemProps {
+    icon: string;
+    label: string;
+    description: string;
+    colorClass?: string;
+}
+
+const LegendItem: React.FC<LegendItemProps> = ({ icon, label, description, colorClass = "text-cyan-400" }) => (
     <div>
         <span className={colorClass}>{icon} {label}:</span> {description}
     </div>

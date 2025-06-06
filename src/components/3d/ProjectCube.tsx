@@ -1,21 +1,32 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
+import { Mesh } from "three";
+import { Project } from "../../types/project.js";
 import { RAG_COLORS, EXECUTION_COLORS, UI_COLORS } from "../../constants/colors.js";
 import { calculateCubeSize, calculateProjectDuration } from "../../utils/coordinateUtils.js";
+
+interface ProjectCubeProps {
+    project: Project;
+    position: [number, number, number];
+    isSelected: boolean;
+    onSelect: (project: Project) => void;
+    onHover: (project: Project) => void;
+}
 
 export default function ProjectCube({
     project,
     position,
     isSelected,
     onSelect,
-}) {
-    const cubeRef = useRef();
+    onHover,
+}: ProjectCubeProps) {
+    const cubeRef = useRef<Mesh>(null);
     const [hovered, setHovered] = useState(false);
 
     const cubeSize = calculateCubeSize(project);
-    const coreColor = EXECUTION_COLORS[project.executionState] || "#888888";
-    const edgeColor = RAG_COLORS[project.rag] || "#666666";
+    const coreColor = (project.executionState && EXECUTION_COLORS[project.executionState]) || "#888888";
+    const edgeColor = (project.rag && RAG_COLORS[project.rag]) || "#666666";
     const duration = calculateProjectDuration(project);
     const totalBudget = project.financials.budget2024 || 0;
 
@@ -47,6 +58,7 @@ export default function ProjectCube({
                 onPointerOver={(e) => {
                     e.stopPropagation();
                     setHovered(true);
+                    onHover(project);
                 }}
                 onPointerOut={() => setHovered(false)}
             >

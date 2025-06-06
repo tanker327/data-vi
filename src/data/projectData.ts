@@ -1,4 +1,6 @@
-export const REAL_PROJECTS = [
+import { Project } from '../types/project.js';
+
+export const REAL_PROJECTS: Project[] = [
     {
         id: "683dc74015e3794eacb20453",
         title: "Jasveer Test",
@@ -128,23 +130,23 @@ export const REAL_PROJECTS = [
     },
 ];
 
-export const RAG_OPTIONS = ["RED", "AMBER", "GREEN", null];
-export const EXECUTION_OPTIONS = ["In Progress", "On Hold", "Planning", null];
+export const RAG_OPTIONS = ["RED", "AMBER", "GREEN", null] as const;
+export const EXECUTION_OPTIONS = ["In Progress", "On Hold", "Planning", null] as const;
 export const ORGANIZATION_OPTIONS = [
     "CORPORATE & INVESTMENT BANKING",
     "ASSET & WEALTH MANAGEMENT",
     "CONSUMER & COMMUNITY BANKING",
     "COMMERCIAL BANK",
-];
-export const BENEFITS_OPTIONS = ["BC", "IP"];
+] as const;
+export const BENEFITS_OPTIONS = ["BC", "IP"] as const;
 export const REGIONS = [
     "APAC (Asia Pacific)",
     "EMEA (Europe, Middle East, Africa)",
     "Americas",
-];
+] as const;
 
-function generateAdditionalProjects() {
-    const additionalProjects = [];
+function generateAdditionalProjects(): Project[] {
+    const additionalProjects: Project[] = [];
     // 47 projects (4-50) will be evenly distributed across organizations
 
     for (let i = 4; i <= 50; i++) {
@@ -235,6 +237,6 @@ function generateAdditionalProjects() {
     return additionalProjects;
 }
 
-export function generateProjectData() {
+export function generateProjectData(): Project[] {
     return [...REAL_PROJECTS, ...generateAdditionalProjects()];
 }

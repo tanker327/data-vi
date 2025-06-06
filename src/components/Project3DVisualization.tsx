@@ -1,12 +1,11 @@
-import React from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
-import CoordinateSystem from "./3d/CoordinateSystem.jsx";
-import ProjectCube from "./3d/ProjectCube.jsx";
-import ControlPanel from "./ui/ControlPanel.jsx";
-import StatsPanel from "./ui/StatsPanel.jsx";
-import Legend from "./ui/Legend.jsx";
+import CoordinateSystem from "./3d/CoordinateSystem.js";
+import ProjectCube from "./3d/ProjectCube.js";
+import ControlPanel from "./ui/ControlPanel.js";
+import StatsPanel from "./ui/StatsPanel.js";
+import Legend from "./ui/Legend.js";
 
 import { useProjectData, useFilteredProjects, usePositionedProjects, usePortfolioStats } from "../hooks/useProjectData.js";
 import { useProjectSelection } from "../hooks/useProjectSelection.js";
@@ -14,7 +13,7 @@ import { useProjectFilters } from "../hooks/useProjectFilters.js";
 
 export default function Project3DVisualization() {
     const { filters, setFilters } = useProjectFilters();
-    const { selectedProject, setSelectedProject } = useProjectSelection();
+    const { selectedProject, setSelectedProject, setHoveredProject } = useProjectSelection();
 
     const projects = useProjectData();
     const filteredProjects = useFilteredProjects(projects, filters);
@@ -51,6 +50,7 @@ export default function Project3DVisualization() {
                         position={project.position}
                         isSelected={selectedProject?.id === project.id}
                         onSelect={setSelectedProject}
+                        onHover={setHoveredProject}
                     />
                 ))}
 

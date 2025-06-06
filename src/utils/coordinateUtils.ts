@@ -1,6 +1,7 @@
+import { Project } from '../types/project.js';
 import { ORGANIZATION_OPTIONS } from "../data/projectData.js";
 
-export function calculateTotalFinancials(project) {
+export function calculateTotalFinancials(project: Project): number {
     return (
         (project.financials.live2024 || 0) +
         (project.financials.outlook2024 || 0) +
@@ -10,7 +11,7 @@ export function calculateTotalFinancials(project) {
     );
 }
 
-export function calculateProjectPosition(project) {
+export function calculateProjectPosition(project: Project): [number, number, number] {
     const totalFinancials = calculateTotalFinancials(project);
 
     // X-axis: Date timeline (year and month from start date)
@@ -27,7 +28,7 @@ export function calculateProjectPosition(project) {
 
     // Z-axis: Owning Organization clustering
     const owningOrg = project.l1OwningOrganization || "Unknown";
-    const sponsorIndex = ORGANIZATION_OPTIONS.indexOf(owningOrg);
+    const sponsorIndex = ORGANIZATION_OPTIONS.indexOf(owningOrg as typeof ORGANIZATION_OPTIONS[number]);
 
     const z =
         sponsorIndex !== -1
@@ -37,18 +38,18 @@ export function calculateProjectPosition(project) {
     return [x, y, z];
 }
 
-export function calculateCubeSize(project) {
+export function calculateCubeSize(project: Project): number {
     const totalBudget = project.financials.budget2024 || 0;
     return Math.max(0.3, Math.min(1.5, Math.log(totalBudget + 1) / 8));
 }
 
-export function calculateProjectDuration(project) {
+export function calculateProjectDuration(project: Project): number {
     const startYear = new Date(project.startDate).getFullYear();
     const endYear = new Date(project.endDate).getFullYear();
     return endYear - startYear;
 }
 
-export function convertCoordinateToDateLabel(val) {
+export function convertCoordinateToDateLabel(val: number): string {
     const year = Math.round(val / 3 + 2023);
     const month = Math.round(
         (val / 3 + 2023 - Math.floor(val / 3 + 2023)) * 12
@@ -58,11 +59,11 @@ export function convertCoordinateToDateLabel(val) {
         : `${year}-${String(month).padStart(2, "0")}`;
 }
 
-export function convertCoordinateToFinancialLabel(val) {
+export function convertCoordinateToFinancialLabel(val: number): string {
     return Math.round(Math.exp((val + 5) * 2) - 1).toLocaleString();
 }
 
-export function convertCoordinateToOrgLabel(val) {
+export function convertCoordinateToOrgLabel(val: number): string {
     // Based on the positioning logic: (sponsorIndex - 1.5) * 4
     // Index 0: CORPORATE & INVESTMENT BANKING → z = -6
     // Index 1: ASSET & WEALTH MANAGEMENT → z = -2
@@ -75,7 +76,7 @@ export function convertCoordinateToOrgLabel(val) {
         Math.abs(curr - val) < Math.abs(prev - val) ? curr : prev
     );
 
-    const orgMap = {
+    const orgMap: Record<number, string> = {
         [-6]: "CIB",
         [-2]: "AWM",
         [2]: "CCB",

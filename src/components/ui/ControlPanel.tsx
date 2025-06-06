@@ -1,6 +1,22 @@
 import React, { useState } from "react";
+import { ProjectFilters } from "../../types/project.js";
 
-const CompactSelect = ({
+interface SelectOption {
+    value: string;
+    label: string;
+}
+
+interface CompactSelectProps {
+    icon: string;
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    options: SelectOption[];
+    colorClass: string;
+    hoverClass: string;
+    focusClass: string;
+}
+
+const CompactSelect: React.FC<CompactSelectProps> = ({
     icon,
     value,
     onChange,
@@ -36,10 +52,15 @@ const CompactSelect = ({
     </div>
 );
 
-export default function ControlPanel({ filters, onFiltersChange }) {
+interface ControlPanelProps {
+    filters: ProjectFilters;
+    onFiltersChange: (filters: ProjectFilters) => void;
+}
+
+export default function ControlPanel({ filters, onFiltersChange }: ControlPanelProps) {
     const [isExpanded, setIsExpanded] = useState(false);
 
-    const updateFilter = (key, value) => {
+    const updateFilter = (key: keyof ProjectFilters, value: string) => {
         onFiltersChange({ ...filters, [key]: value });
     };
 
