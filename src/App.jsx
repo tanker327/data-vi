@@ -1,10 +1,10 @@
 import React from "react";
-import AdvancedProjectUniverse from "./project";
+import Project3DVisualization from "./components/Project3DVisualization.jsx";
 
 export default function App() {
     return (
         <div style={{ width: "100vw", height: "100vh", margin: 0, padding: 0 }}>
-            <AdvancedProjectUniverse />
+            <Project3DVisualization />
         </div>
     );
 }
