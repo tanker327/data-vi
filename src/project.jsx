@@ -155,10 +155,32 @@ const generateRealProjectData = () => {
     for (let i = 4; i <= 50; i++) {
         const startYear = 2020 + Math.floor(Math.random() * 5);
         const endYear = startYear + 1 + Math.floor(Math.random() * 5);
-        const live2024 = Math.floor(Math.random() * 200000) + 5000;
-        const outlook2024 = Math.floor(Math.random() * 50000) + 1000;
-        const live2025 = Math.floor(Math.random() * 300000) + 10000;
-        const outlook2025 = Math.floor(Math.random() * 80000) + 2000;
+
+        // Create much wider financial ranges with exponential distribution
+        const finScale = Math.random();
+        const baseMultiplier =
+            finScale < 0.3 ? 1 : finScale < 0.6 ? 5 : finScale < 0.8 ? 20 : 100;
+
+        const live2024 =
+            Math.floor(
+                (Math.random() * 500000 + Math.random() * 1000000) *
+                    baseMultiplier
+            ) + 1000;
+        const outlook2024 =
+            Math.floor(
+                (Math.random() * 200000 + Math.random() * 300000) *
+                    baseMultiplier
+            ) + 500;
+        const live2025 =
+            Math.floor(
+                (Math.random() * 800000 + Math.random() * 1500000) *
+                    baseMultiplier
+            ) + 2000;
+        const outlook2025 =
+            Math.floor(
+                (Math.random() * 300000 + Math.random() * 500000) *
+                    baseMultiplier
+            ) + 1000;
 
         additionalProjects.push({
             id: `project_${i}`,
@@ -339,37 +361,62 @@ function CoordinateSystem({ range = 10 }) {
             </Text>
 
             {/* Coordinate value labels */}
-            {[-8, -4, 0, 4, 8].map((val) => (
-                <React.Fragment key={val}>
-                    <Text
-                        position={[val, -0.5, 0]}
-                        fontSize={0.3}
-                        color="#ff8888"
-                        anchorX="center"
-                        anchorY="middle"
-                    >
-                        {val}
-                    </Text>
-                    <Text
-                        position={[0, val, -0.5]}
-                        fontSize={0.3}
-                        color="#88ff88"
-                        anchorX="center"
-                        anchorY="middle"
-                    >
-                        {val}
-                    </Text>
-                    <Text
-                        position={[-0.5, 0, val]}
-                        fontSize={0.3}
-                        color="#8888ff"
-                        anchorX="center"
-                        anchorY="middle"
-                    >
-                        {val}
-                    </Text>
-                </React.Fragment>
-            ))}
+            {[-8, -4, 0, 4, 8].map((val) => {
+                // Convert X coordinate back to year for timeline labels
+                const year = Math.round(val / 3 + 2023);
+                const month = Math.round(
+                    (val / 3 + 2023 - Math.floor(val / 3 + 2023)) * 12
+                );
+                const dateLabel =
+                    month === 0
+                        ? `${year}`
+                        : `${year}-${String(month).padStart(2, "0")}`;
+
+                return (
+                    <React.Fragment key={val}>
+                        <Text
+                            position={[val, -0.5, 0]}
+                            fontSize={0.3}
+                            color="#ff8888"
+                            anchorX="center"
+                            anchorY="middle"
+                        >
+                            {dateLabel}
+                        </Text>
+                        <Text
+                            position={[0, val, -0.5]}
+                            fontSize={0.3}
+                            color="#88ff88"
+                            anchorX="center"
+                            anchorY="middle"
+                        >
+                            $
+                            {Math.round(
+                                Math.exp((val + 5) * 2) - 1
+                            ).toLocaleString()}
+                        </Text>
+                        <Text
+                            position={[-0.5, 0, val]}
+                            fontSize={0.3}
+                            color="#8888ff"
+                            anchorX="center"
+                            anchorY="middle"
+                        >
+                            {val === -6
+                                ? "CIB"
+                                : val === -2
+                                ? "AWM"
+                                : val === 2
+                                ? "CCB"
+                                : val === 6
+                                ? "CB"
+                                : val === 0
+                                ? "Mixed"
+                                : ""}
+                        </Text>
+                    </React.Fragment>
+                );
+            })}
         </group>
     );
 }
