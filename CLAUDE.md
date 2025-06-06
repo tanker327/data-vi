@@ -18,7 +18,7 @@ This is a React-based 3D data visualization application that creates an interact
 The codebase has been refactored into a well-organized modular structure:
 
 ### Tech Stack
-- **Frontend Framework**: React 19 with Vite build tool
+- **Frontend Framework**: React 18 with Vite build tool
 - **3D Graphics**: Three.js via @react-three/fiber and @react-three/drei
 - **Styling**: Tailwind CSS with glassmorphism effects
 
@@ -42,13 +42,13 @@ src/
 │   ├── coordinateUtils.js          # 3D positioning calculations
 │   └── filterUtils.js              # Project filtering logic
 ├── data/
-│   └── projectData.js              # Project data generation
+│   └── projectData.ts              # Project data generation with exponential financial distribution
 └── constants/
     └── colors.js                   # Color mappings
 ```
 
 ### Data Flow Architecture
-1. **Data Layer**: `projectData.js` generates sample project data with real financial attributes
+1. **Data Layer**: `projectData.ts` generates sample project data with exponentially distributed financial ranges (5 tiers from 1K to 500M) for diverse Y-axis visualization
 2. **Processing Layer**: Custom hooks (`useProjectData`, `useFilteredProjects`, `usePositionedProjects`) handle data transformation and memoization
 3. **State Management**: Separate hooks for filters and selection state with clean separation of concerns
 4. **Utility Layer**: Coordinate calculations and filtering logic extracted into pure functions
