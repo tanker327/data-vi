@@ -153,28 +153,45 @@ function generateAdditionalProjects(): Project[] {
         const startYear = 2020 + Math.floor(Math.random() * 5);
         const endYear = startYear + 1 + Math.floor(Math.random() * 5);
 
+        // Create more diverse financial ranges with exponential distribution
         const finScale = Math.random();
-        const baseMultiplier =
-            finScale < 0.3 ? 1 : finScale < 0.6 ? 5 : finScale < 0.8 ? 20 : 100;
+        let baseMultiplier: number;
+        
+        if (finScale < 0.1) {
+            // Very small projects: 1K - 50K
+            baseMultiplier = 0.01 + Math.random() * 0.05;
+        } else if (finScale < 0.3) {
+            // Small projects: 50K - 500K
+            baseMultiplier = 0.05 + Math.random() * 0.45;
+        } else if (finScale < 0.6) {
+            // Medium projects: 500K - 5M
+            baseMultiplier = 0.5 + Math.random() * 4.5;
+        } else if (finScale < 0.85) {
+            // Large projects: 5M - 50M
+            baseMultiplier = 5 + Math.random() * 45;
+        } else {
+            // Very large projects: 50M - 500M
+            baseMultiplier = 50 + Math.random() * 450;
+        }
 
         const live2024 =
             Math.floor(
-                (Math.random() * 500000 + Math.random() * 1000000) *
+                (Math.random() * 800000 + Math.random() * 1200000) *
                     baseMultiplier
             ) + 1000;
         const outlook2024 =
             Math.floor(
-                (Math.random() * 200000 + Math.random() * 300000) *
+                (Math.random() * 300000 + Math.random() * 500000) *
                     baseMultiplier
             ) + 500;
         const live2025 =
             Math.floor(
-                (Math.random() * 800000 + Math.random() * 1500000) *
+                (Math.random() * 900000 + Math.random() * 1800000) *
                     baseMultiplier
             ) + 2000;
         const outlook2025 =
             Math.floor(
-                (Math.random() * 300000 + Math.random() * 500000) *
+                (Math.random() * 400000 + Math.random() * 700000) *
                     baseMultiplier
             ) + 1000;
 
