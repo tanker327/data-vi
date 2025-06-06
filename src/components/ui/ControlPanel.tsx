@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { ProjectFilters } from "../../types/project.js";
 
 interface SelectOption {
@@ -12,8 +12,6 @@ interface CompactSelectProps {
     onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
     options: SelectOption[];
     colorClass: string;
-    hoverClass: string;
-    focusClass: string;
 }
 
 const CompactSelect: React.FC<CompactSelectProps> = ({
@@ -22,31 +20,58 @@ const CompactSelect: React.FC<CompactSelectProps> = ({
     onChange,
     options,
     colorClass,
-    hoverClass,
-    focusClass,
 }) => (
-    <div className="relative group">
+    <div style={{ position: 'relative', display: 'inline-block' }}>
         <select
             value={value}
             onChange={onChange}
-            className={`appearance-none bg-gray-800/60 backdrop-blur-sm text-white text-[9px] px-2 py-1 pr-5 rounded border border-gray-600/50 ${hoverClass} ${focusClass} focus:outline-none transition-all duration-200 cursor-pointer w-20 flex-shrink-0`}
+            style={{
+                appearance: 'none',
+                backgroundColor: 'rgba(31, 41, 55, 0.8)',
+                color: 'white',
+                fontSize: '10px',
+                padding: '4px 20px 4px 16px',
+                border: '1px solid rgba(75, 85, 99, 0.5)',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                minWidth: '65px',
+                outline: 'none'
+            }}
         >
             {options.map(({ value, label }) => (
                 <option
                     key={value}
                     value={value}
-                    className="bg-gray-800 text-[9px]"
+                    style={{ backgroundColor: 'rgb(31, 41, 55)' }}
                 >
                     {label}
                 </option>
             ))}
         </select>
         <div
-            className={`absolute left-1.5 top-1/2 transform -translate-y-1/2 ${colorClass} text-[8px] pointer-events-none`}
+            style={{
+                position: 'absolute',
+                left: '4px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                fontSize: '8px',
+                pointerEvents: 'none'
+            }}
+            className={colorClass}
         >
             {icon}
         </div>
-        <div className="absolute right-1 top-1/2 transform -translate-y-1/2 text-gray-400 text-[8px] pointer-events-none">
+        <div
+            style={{
+                position: 'absolute',
+                right: '4px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                color: 'rgb(156, 163, 175)',
+                fontSize: '8px',
+                pointerEvents: 'none'
+            }}
+        >
             ▼
         </div>
     </div>
@@ -58,8 +83,6 @@ interface ControlPanelProps {
 }
 
 export default function ControlPanel({ filters, onFiltersChange }: ControlPanelProps) {
-    const [isExpanded, setIsExpanded] = useState(false);
-
     const updateFilter = (key: keyof ProjectFilters, value: string) => {
         onFiltersChange({ ...filters, [key]: value });
     };
@@ -68,9 +91,9 @@ export default function ControlPanel({ filters, onFiltersChange }: ControlPanelP
         rag: [
             { value: "all", label: "All" },
             { value: "RED", label: "RED" },
-            { value: "AMBER", label: "AMBER" },
-            { value: "GREEN", label: "GREEN" },
-            { value: "BLUE", label: "BLUE" },
+            { value: "AMBER", label: "AMB" },
+            { value: "GREEN", label: "GRN" },
+            { value: "BLUE", label: "BLU" },
         ],
         executionState: [
             { value: "all", label: "All" },
@@ -94,96 +117,88 @@ export default function ControlPanel({ filters, onFiltersChange }: ControlPanelP
     };
 
     return (
-        <div className="absolute top-3 left-3 z-10 min-w-max">
-            {/* Compact Header */}
-            <div
-                className="bg-black/90 backdrop-blur-lg text-white px-2 py-1.5 rounded-lg border border-cyan-400/30 shadow-xl cursor-pointer hover:border-cyan-400/50 transition-all duration-300"
-                onClick={() => setIsExpanded(!isExpanded)}
+        <div 
+            style={{
+                position: 'absolute',
+                top: '12px',
+                left: '12px',
+                zIndex: 10
+            }}
+        >
+            <div 
+                style={{
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    backdropFilter: 'blur(8px)',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(34, 197, 94, 0.3)',
+                    padding: '8px 12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    flexWrap: 'nowrap'
+                }}
             >
-                <div className="flex items-center gap-1.5">
-                    <div className="w-1 h-1 bg-cyan-400 rounded-full animate-pulse"></div>
-                    <span className="text-[10px] font-medium text-cyan-300">
-                        Controls
-                    </span>
-                    <div
-                        className={`text-[8px] text-gray-400 transition-transform duration-200 ${
-                            isExpanded ? "rotate-180" : ""
-                        }`}
+                {/* Label */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <div 
+                        style={{
+                            width: '6px',
+                            height: '6px',
+                            backgroundColor: 'rgb(34, 197, 94)',
+                            borderRadius: '50%'
+                        }}
+                    ></div>
+                    <span 
+                        style={{
+                            fontSize: '10px',
+                            fontWeight: '500',
+                            color: 'rgb(34, 197, 94)',
+                            whiteSpace: 'nowrap'
+                        }}
                     >
-                        ▼
-                    </div>
+                        Filters
+                    </span>
                 </div>
-            </div>
 
-            {/* Expandable Content */}
-            <div
-                className={`mt-1 bg-black/95 backdrop-blur-lg rounded-lg border border-gray-600/30 shadow-xl transition-all duration-300 overflow-hidden ${
-                    isExpanded ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
-                }`}
-            >
-                <div className="p-2 space-y-2 min-w-max">
-                    {/* Filters in horizontal row */}
-                    <div className="flex gap-1.5 flex-nowrap">
-                        <CompactSelect
-                            icon="🔴"
-                            value={filters.rag}
-                            onChange={(e) =>
-                                updateFilter("rag", e.target.value)
-                            }
-                            options={filterOptions.rag}
-                            colorClass="text-red-400"
-                            hoverClass="hover:border-red-400/70"
-                            focusClass="focus:border-red-400"
-                        />
-                        <CompactSelect
-                            icon="⚡"
-                            value={filters.executionState}
-                            onChange={(e) =>
-                                updateFilter("executionState", e.target.value)
-                            }
-                            options={filterOptions.executionState}
-                            colorClass="text-green-400"
-                            hoverClass="hover:border-green-400/70"
-                            focusClass="focus:border-green-400"
-                        />
-                        <CompactSelect
-                            icon="🏢"
-                            value={filters.organization}
-                            onChange={(e) =>
-                                updateFilter("organization", e.target.value)
-                            }
-                            options={filterOptions.organization}
-                            colorClass="text-blue-400"
-                            hoverClass="hover:border-blue-400/70"
-                            focusClass="focus:border-blue-400"
-                        />
-                        <CompactSelect
-                            icon="📊"
-                            value={filters.benefitsLevel}
-                            onChange={(e) =>
-                                updateFilter("benefitsLevel", e.target.value)
-                            }
-                            options={filterOptions.benefitsLevel}
-                            colorClass="text-purple-400"
-                            hoverClass="hover:border-purple-400/70"
-                            focusClass="focus:border-purple-400"
-                        />
-                    </div>
+                {/* Separator */}
+                <div 
+                    style={{
+                        width: '1px',
+                        height: '20px',
+                        backgroundColor: 'rgba(75, 85, 99, 0.5)'
+                    }}
+                ></div>
 
-                    {/* Ultra-compact Legend */}
-                    <div className="border-t border-gray-700/50 pt-1.5">
-                        <div className="grid grid-cols-3 gap-x-2 gap-y-0.5 text-[8px] text-gray-400">
-                            <span>🔴 Timeline</span>
-                            <span>🟢 Financials</span>
-                            <span>🔵 Organization</span>
-                            <span>📦 Budget</span>
-                            <span>🎨 State</span>
-                            <span>📏 RAG</span>
-                        </div>
-                        <div className="text-center text-gray-500 text-[7px] mt-1 opacity-75">
-                            Click • Drag • Scroll
-                        </div>
-                    </div>
+                {/* All selectors in one row */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'nowrap' }}>
+                    <CompactSelect
+                        icon="🔴"
+                        value={filters.rag}
+                        onChange={(e) => updateFilter("rag", e.target.value)}
+                        options={filterOptions.rag}
+                        colorClass="text-red-400"
+                    />
+                    <CompactSelect
+                        icon="⚡"
+                        value={filters.executionState}
+                        onChange={(e) => updateFilter("executionState", e.target.value)}
+                        options={filterOptions.executionState}
+                        colorClass="text-green-400"
+                    />
+                    <CompactSelect
+                        icon="🏢"
+                        value={filters.organization}
+                        onChange={(e) => updateFilter("organization", e.target.value)}
+                        options={filterOptions.organization}
+                        colorClass="text-blue-400"
+                    />
+                    <CompactSelect
+                        icon="📊"
+                        value={filters.benefitsLevel}
+                        onChange={(e) => updateFilter("benefitsLevel", e.target.value)}
+                        options={filterOptions.benefitsLevel}
+                        colorClass="text-purple-400"
+                    />
                 </div>
             </div>
         </div>
