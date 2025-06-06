@@ -13,26 +13,46 @@ This is a React-based 3D data visualization application that creates an interact
 - `npm run lint` - Run ESLint code quality checks
 - `npm run preview` - Preview production build locally
 
-## Core Architecture
+## Modular Architecture
+
+The codebase has been refactored into a well-organized modular structure:
 
 ### Tech Stack
 - **Frontend Framework**: React 19 with Vite build tool
 - **3D Graphics**: Three.js via @react-three/fiber and @react-three/drei
-- **Styling**: CSS-in-JS with inline styles and CSS classes
+- **Styling**: Tailwind CSS with glassmorphism effects
 
-### Key Components
-- `App.jsx` - Root component that renders the main visualization
-- `project.jsx` - Contains the main `AdvancedProjectUniverse` component with:
-  - `CoordinateSystem` - 3D grid and axis labels
-  - `ProjectCube` - Individual project visualization as animated cubes
-  - `Project3DVisualization` - Main container with controls and canvas
+### Directory Structure
+```
+src/
+├── components/
+│   ├── 3d/
+│   │   ├── CoordinateSystem.jsx    # 3D grid and axis system
+│   │   └── ProjectCube.jsx         # Individual project visualization
+│   ├── ui/
+│   │   ├── ControlPanel.jsx        # Collapsible filter controls
+│   │   ├── StatsPanel.jsx          # Portfolio statistics
+│   │   └── Legend.jsx              # Control instructions
+│   └── Project3DVisualization.jsx  # Main orchestrator component
+├── hooks/
+│   ├── useProjectData.js           # Data processing and memoization
+│   ├── useProjectSelection.js      # Selection state management
+│   └── useProjectFilters.js        # Filter state management
+├── utils/
+│   ├── coordinateUtils.js          # 3D positioning calculations
+│   └── filterUtils.js              # Project filtering logic
+├── data/
+│   └── projectData.js              # Project data generation
+└── constants/
+    └── colors.js                   # Color mappings
+```
 
-### Data Structure
-Projects are visualized using real financial and organizational data with attributes:
-- Financial data (live2024, outlook2024, live2025, outlook2025, budget2024)
-- Project metadata (title, RAG status, execution state, owner, sponsor)
-- Organizational info (L1/L2/L3 owning organizations, sponsor organizations)
-- Timeline data (start/end dates)
+### Data Flow Architecture
+1. **Data Layer**: `projectData.js` generates sample project data with real financial attributes
+2. **Processing Layer**: Custom hooks (`useProjectData`, `useFilteredProjects`, `usePositionedProjects`) handle data transformation and memoization
+3. **State Management**: Separate hooks for filters and selection state with clean separation of concerns
+4. **Utility Layer**: Coordinate calculations and filtering logic extracted into pure functions
+5. **Component Layer**: Modular 3D and UI components with clear prop interfaces
 
 ### 3D Coordinate Mapping
 - **X-axis**: Project timeline (start date converted to decimal years)
@@ -42,17 +62,18 @@ Projects are visualized using real financial and organizational data with attrib
 - **Cube color**: Execution state (In Progress=green, On Hold=red, etc.)
 - **Edge color**: RAG status (RED, AMBER, GREEN)
 
-### Interaction Features
-- Click cubes to select and view detailed project information
-- Hover for quick project overview
-- OrbitControls for 3D navigation (rotate, zoom, pan)
-- Real-time filtering by RAG, execution state, organization, benefits level
-- Live statistics panel showing portfolio metrics
+### UI Design Patterns
+- **Glassmorphism**: Control panel uses backdrop-blur and transparency
+- **Collapsible Interface**: Control panel expands/collapses to save screen space
+- **Color-coded Icons**: Each filter has distinctive icons and color themes
+- **Responsive Grid**: 2x2 layout for compact filter controls
 
 ## Code Conventions
 
 - Use functional React components with hooks
-- Prefer inline styles for 3D positioning and dynamic styling
+- Extract complex logic into custom hooks for reusability
 - Use useMemo for expensive calculations (project positioning, filtering)
 - Implement useFrame for Three.js animations
-- Follow the existing pattern of separating concerns (data generation, visualization, controls)
+- Separate concerns: data, state, utilities, and UI components
+- Prefer explicit prop interfaces over prop drilling
+- Use constants for color mappings and configuration
