@@ -1,6 +1,23 @@
 import { Project } from '../types/project.js';
 import { ORGANIZATION_OPTIONS } from "../data/projectData.js";
 
+// Simple hash function for deterministic pseudo-random numbers
+function hashCode(str: string): number {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+}
+
+// Deterministic pseudo-random number between -0.5 and 0.5 based on project ID
+function deterministicRandom(projectId: string, seed: number = 0): number {
+    const hash = hashCode(projectId + seed.toString());
+    return ((hash % 1000) / 1000) - 0.5;
+}
+
 export function calculateTotalFinancials(project: Project): number {
     return (
         (project.financials.live2024 || 0) +
@@ -32,8 +49,8 @@ export function calculateProjectPosition(project: Project): [number, number, num
 
     const z =
         sponsorIndex !== -1
-            ? (sponsorIndex - 1.5) * 4 + (Math.random() - 0.5) * 1.5
-            : (Math.random() - 0.5) * 2;
+            ? (sponsorIndex - 1.5) * 4 + deterministicRandom(project.id, 1) * 1.5
+            : deterministicRandom(project.id, 2) * 2;
 
     return [x, y, z];
 }

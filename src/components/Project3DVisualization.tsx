@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
@@ -19,6 +20,15 @@ export default function Project3DVisualization() {
     const filteredProjects = useFilteredProjects(projects, filters);
     const positionedProjects = usePositionedProjects(filteredProjects);
     const stats = usePortfolioStats(filteredProjects);
+
+    // Memoize callbacks to prevent unnecessary re-renders
+    const handleProjectSelect = useCallback((project: any) => {
+        setSelectedProject(project);
+    }, [setSelectedProject]);
+
+    const handleProjectHover = useCallback((project: any) => {
+        setHoveredProject(project);
+    }, [setHoveredProject]);
 
     return (
         <div className="w-full h-screen bg-gray-900 relative">
@@ -49,8 +59,8 @@ export default function Project3DVisualization() {
                         project={project}
                         position={project.position}
                         isSelected={selectedProject?.id === project.id}
-                        onSelect={setSelectedProject}
-                        onHover={setHoveredProject}
+                        onSelect={handleProjectSelect}
+                        onHover={handleProjectHover}
                     />
                 ))}
 

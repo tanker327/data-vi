@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, memo } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import { Mesh } from "three";
@@ -14,7 +14,7 @@ interface ProjectCubeProps {
     onHover: (project: Project) => void;
 }
 
-export default function ProjectCube({
+const ProjectCube = memo(function ProjectCube({
     project,
     position,
     isSelected,
@@ -200,4 +200,6 @@ export default function ProjectCube({
             )}
         </group>
     );
-}
+});
+
+export default ProjectCube;
