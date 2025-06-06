@@ -13,13 +13,13 @@ const CompactSelect = ({
         <select
             value={value}
             onChange={onChange}
-            className={`appearance-none bg-gray-800/60 backdrop-blur-sm text-white text-[10px] px-4 py-1 pr-6 rounded border border-gray-600/50 ${hoverClass} ${focusClass} focus:outline-none transition-all duration-200 cursor-pointer min-w-0 w-full`}
+            className={`appearance-none bg-gray-800/60 backdrop-blur-sm text-white text-[9px] px-2 py-1 pr-5 rounded border border-gray-600/50 ${hoverClass} ${focusClass} focus:outline-none transition-all duration-200 cursor-pointer w-20 flex-shrink-0`}
         >
             {options.map(({ value, label }) => (
                 <option
                     key={value}
                     value={value}
-                    className="bg-gray-800 text-[10px]"
+                    className="bg-gray-800 text-[9px]"
                 >
                     {label}
                 </option>
@@ -30,7 +30,7 @@ const CompactSelect = ({
         >
             {icon}
         </div>
-        <div className="absolute right-1.5 top-1/2 transform -translate-y-1/2 text-gray-400 text-[8px] pointer-events-none">
+        <div className="absolute right-1 top-1/2 transform -translate-y-1/2 text-gray-400 text-[8px] pointer-events-none">
             ▼
         </div>
     </div>
@@ -73,7 +73,7 @@ export default function ControlPanel({ filters, onFiltersChange }) {
     };
 
     return (
-        <div className="absolute top-3 left-3 z-10">
+        <div className="absolute top-3 left-3 z-10 min-w-max">
             {/* Compact Header */}
             <div
                 className="bg-black/90 backdrop-blur-lg text-white px-2 py-1.5 rounded-lg border border-cyan-400/30 shadow-xl cursor-pointer hover:border-cyan-400/50 transition-all duration-300"
@@ -100,9 +100,9 @@ export default function ControlPanel({ filters, onFiltersChange }) {
                     isExpanded ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
                 }`}
             >
-                <div className="p-2 space-y-2">
-                    {/* Filters in compact 2x2 grid */}
-                    <div className="grid grid-cols-2 gap-1.5">
+                <div className="p-2 space-y-2 min-w-max">
+                    {/* Filters in horizontal row */}
+                    <div className="flex gap-1.5 flex-nowrap">
                         <CompactSelect
                             icon="🔴"
                             value={filters.rag}

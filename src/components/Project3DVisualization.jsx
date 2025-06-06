@@ -14,8 +14,8 @@ import { useProjectFilters } from "../hooks/useProjectFilters.js";
 
 export default function Project3DVisualization() {
     const { filters, setFilters } = useProjectFilters();
-    const { selectedProject, setSelectedProject, setHoveredProject } = useProjectSelection();
-    
+    const { selectedProject, setSelectedProject } = useProjectSelection();
+
     const projects = useProjectData();
     const filteredProjects = useFilteredProjects(projects, filters);
     const positionedProjects = usePositionedProjects(filteredProjects);
@@ -51,7 +51,6 @@ export default function Project3DVisualization() {
                         position={project.position}
                         isSelected={selectedProject?.id === project.id}
                         onSelect={setSelectedProject}
-                        onHover={setHoveredProject}
                     />
                 ))}
 

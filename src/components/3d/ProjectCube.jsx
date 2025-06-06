@@ -4,7 +4,12 @@ import { Html } from "@react-three/drei";
 import { RAG_COLORS, EXECUTION_COLORS, UI_COLORS } from "../../constants/colors.js";
 import { calculateCubeSize, calculateProjectDuration } from "../../utils/coordinateUtils.js";
 
-export default function ProjectCube({ project, position, isSelected, onSelect, onHover }) {
+export default function ProjectCube({
+    project,
+    position,
+    isSelected,
+    onSelect,
+}) {
     const cubeRef = useRef();
     const [hovered, setHovered] = useState(false);
 
@@ -27,7 +32,8 @@ export default function ProjectCube({ project, position, isSelected, onSelect, o
             }
 
             // Scale for selection/hover
-            const targetScale = (isSelected ? 1.3 : 1.0) * (hovered ? 1.2 : 1.0);
+            const targetScale =
+                (isSelected ? 1.3 : 1.0) * (hovered ? 1.2 : 1.0);
             cubeRef.current.scale.setScalar(targetScale);
         }
     });
@@ -41,7 +47,6 @@ export default function ProjectCube({ project, position, isSelected, onSelect, o
                 onPointerOver={(e) => {
                     e.stopPropagation();
                     setHovered(true);
-                    onHover(project);
                 }}
                 onPointerOut={() => setHovered(false)}
             >

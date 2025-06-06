@@ -145,7 +145,8 @@ export const REGIONS = [
 
 function generateAdditionalProjects() {
     const additionalProjects = [];
-    
+    // 47 projects (4-50) will be evenly distributed across organizations
+
     for (let i = 4; i <= 50; i++) {
         const startYear = 2020 + Math.floor(Math.random() * 5);
         const endYear = startYear + 1 + Math.floor(Math.random() * 5);
@@ -175,6 +176,10 @@ function generateAdditionalProjects() {
                     baseMultiplier
             ) + 1000;
 
+        // Ensure each organization gets equal distribution of projects
+        const orgIndex = (i - 4) % ORGANIZATION_OPTIONS.length;
+        const finalOrganization = ORGANIZATION_OPTIONS[orgIndex];
+
         additionalProjects.push({
             id: `project_${i}`,
             title: `Project ${i}`,
@@ -193,9 +198,7 @@ function generateAdditionalProjects() {
                     Math.floor(Math.random() * BENEFITS_OPTIONS.length)
                 ],
             businessCase: `BC${i} - Sample Business Case ${i}`,
-            productName: `Product ${i} | Department | ${
-                ORGANIZATION_OPTIONS[Math.floor(Math.random() * ORGANIZATION_OPTIONS.length)]
-            }`,
+            productName: `Product ${i} | Department | ${finalOrganization}`,
             financials: {
                 live2024,
                 outlook2024,
@@ -209,9 +212,10 @@ function generateAdditionalProjects() {
             owner: `Owner ${i}`,
             sponsor: `Sponsor ${i}`,
             primaryFbm: `FBM ${i}`,
-            l1OwningOrganization:
-                ORGANIZATION_OPTIONS[Math.floor(Math.random() * ORGANIZATION_OPTIONS.length)],
-            l2OwningOrganization: `L2 Org ${i}`,
+            l1OwningOrganization: finalOrganization,
+            l2OwningOrganization: `${
+                finalOrganization.split(" ")[0]
+            } - Subdivision ${i}`,
             inPlan: Math.random() > 0.2 ? "Yes" : "No",
             labels: `label${i}, tag${i}`,
             openCreationDate: `2024-0${

@@ -4,8 +4,9 @@ import { filterProjects, calculatePortfolioStats } from "../utils/filterUtils.js
 import { calculateProjectPosition } from "../utils/coordinateUtils.js";
 
 export function useProjectData() {
-    const projects = useMemo(() => generateProjectData(), []);
-    
+    // Remove caching to see changes immediately during development
+    const projects = generateProjectData();
+
     return projects;
 }
 

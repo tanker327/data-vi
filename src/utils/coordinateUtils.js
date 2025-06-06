@@ -25,10 +25,9 @@ export function calculateProjectPosition(project) {
     // Y-axis: Total financials (logarithmic scale)
     const y = Math.log(totalFinancials + 1) / 2 - 5;
 
-    // Z-axis: Sponsor Organization clustering
-    const sponsorKey =
-        project.l1SponsorOrganization || project.sponsor || "Unknown";
-    const sponsorIndex = ORGANIZATION_OPTIONS.indexOf(sponsorKey);
+    // Z-axis: Owning Organization clustering
+    const owningOrg = project.l1OwningOrganization || "Unknown";
+    const sponsorIndex = ORGANIZATION_OPTIONS.indexOf(owningOrg);
 
     const z =
         sponsorIndex !== -1
