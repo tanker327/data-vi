@@ -8,6 +8,7 @@ interface SelectOption {
 
 interface CompactSelectProps {
     icon: string;
+    label: string;
     value: string;
     onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
     options: SelectOption[];
@@ -16,13 +17,23 @@ interface CompactSelectProps {
 
 const CompactSelect: React.FC<CompactSelectProps> = ({
     icon,
+    label,
     value,
     onChange,
     options,
     colorClass,
 }) => (
-    <div style={{ position: 'relative', display: 'inline-block' }}>
-        <select
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
+        <div style={{ 
+            fontSize: '8px', 
+            color: 'rgba(156, 163, 175, 0.8)', 
+            fontWeight: '500',
+            whiteSpace: 'nowrap'
+        }}>
+            {label}
+        </div>
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+            <select
             value={value}
             onChange={onChange}
             style={{
@@ -73,6 +84,7 @@ const CompactSelect: React.FC<CompactSelectProps> = ({
             }}
         >
             ▼
+        </div>
         </div>
     </div>
 );
@@ -170,9 +182,10 @@ export default function ControlPanel({ filters, onFiltersChange }: ControlPanelP
                 ></div>
 
                 {/* All selectors in one row */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'nowrap' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-end', gap: '8px', flexWrap: 'nowrap' }}>
                     <CompactSelect
                         icon="🔴"
+                        label="RAG Status"
                         value={filters.rag}
                         onChange={(e) => updateFilter("rag", e.target.value)}
                         options={filterOptions.rag}
@@ -180,6 +193,7 @@ export default function ControlPanel({ filters, onFiltersChange }: ControlPanelP
                     />
                     <CompactSelect
                         icon="⚡"
+                        label="Execution"
                         value={filters.executionState}
                         onChange={(e) => updateFilter("executionState", e.target.value)}
                         options={filterOptions.executionState}
@@ -187,6 +201,7 @@ export default function ControlPanel({ filters, onFiltersChange }: ControlPanelP
                     />
                     <CompactSelect
                         icon="🏢"
+                        label="Organization"
                         value={filters.organization}
                         onChange={(e) => updateFilter("organization", e.target.value)}
                         options={filterOptions.organization}
@@ -194,6 +209,7 @@ export default function ControlPanel({ filters, onFiltersChange }: ControlPanelP
                     />
                     <CompactSelect
                         icon="📊"
+                        label="Benefits Level"
                         value={filters.benefitsLevel}
                         onChange={(e) => updateFilter("benefitsLevel", e.target.value)}
                         options={filterOptions.benefitsLevel}
