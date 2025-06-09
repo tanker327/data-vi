@@ -2,16 +2,16 @@ import { useCallback } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
-import CoordinateSystem from "./3d/CoordinateSystem";
-import ProjectCube from "./3d/ProjectCube";
-import ControlPanel from "./ui/ControlPanel";
-import StatsPanel from "./ui/StatsPanel";
-import Legend from "./ui/Legend";
+import CoordinateSystem from "./components/3d/CoordinateSystem";
+import ProjectCube from "./components/3d/ProjectCube";
+import ControlPanel from "./components/ui/ControlPanel";
+import StatsPanel from "./components/ui/StatsPanel";
+import Legend from "./components/ui/Legend";
 
-import { useFilteredProjects, usePositionedProjects, usePortfolioStats } from "../hooks/useProjectData";
-import { useProjectSelection } from "../hooks/useProjectSelection";
-import { useProjectFilters } from "../hooks/useProjectFilters";
-import { Project } from "../types/project";
+import { useFilteredProjects, usePositionedProjects, usePortfolioStats } from "./hooks/useProjectData";
+import { useProjectSelection } from "./hooks/useProjectSelection";
+import { useProjectFilters } from "./hooks/useProjectFilters";
+import { Project } from "./types/project";
 
 interface Project3DVisualizationProps {
     projects: Project[];

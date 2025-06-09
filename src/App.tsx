@@ -1,5 +1,4 @@
-import Project3DVisualization from "./components/Project3DVisualization";
-import { useProjectData } from "./hooks/useProjectData";
+import { Project3DVisualization, useProjectData } from "./components/Project3DVisualization";
 
 export default function App() {
     const projects = useProjectData();
