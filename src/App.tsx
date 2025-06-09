@@ -1,4 +1,4 @@
-import { Project3DVisualization, useProjectData } from "./components/Project3DVisualization";
+import Project3DVisualization, { useProjectData } from "./components/Project3DVisualization";
 
 export default function App() {
     const projects = useProjectData();
