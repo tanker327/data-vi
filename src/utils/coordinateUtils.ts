@@ -1,5 +1,5 @@
-import { Project } from '../types/project.js';
-import { ORGANIZATION_OPTIONS } from "../data/projectData.js";
+import { Project } from '../types/project';
+import { ORGANIZATION_OPTIONS } from "../data/projectData";
 
 // Simple hash function for deterministic pseudo-random numbers
 function hashCode(str: string): number {

@@ -1,4 +1,4 @@
-import { Project, ProjectFilters, PortfolioStats } from '../types/project.js';
+import { Project, ProjectFilters, PortfolioStats } from '../types/project';
 
 export function filterProjects(projects: Project[], filters: ProjectFilters): Project[] {
     return projects.filter((project) => {

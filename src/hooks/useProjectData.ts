@@ -1,8 +1,8 @@
 import { useMemo } from "react";
-import { Project, ProjectFilters, PositionedProject, PortfolioStats } from "../types/project.js";
-import { generateProjectData } from "../data/projectData.js";
-import { filterProjects, calculatePortfolioStats } from "../utils/filterUtils.js";
-import { calculateProjectPosition } from "../utils/coordinateUtils.js";
+import { Project, ProjectFilters, PositionedProject, PortfolioStats } from "../types/project";
+import { generateProjectData } from "../data/projectData";
+import { filterProjects, calculatePortfolioStats } from "../utils/filterUtils";
+import { calculateProjectPosition } from "../utils/coordinateUtils";
 
 export function useProjectData(): Project[] {
     const projects = useMemo(() => generateProjectData(), []);

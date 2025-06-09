@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Project } from "../types/project.js";
+import { Project } from "../types/project";
 
 export function useProjectSelection() {
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);

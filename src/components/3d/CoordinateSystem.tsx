@@ -1,12 +1,12 @@
 import React, { useRef, useMemo } from "react";
 import { Text, Line } from "@react-three/drei";
 import { Group } from "three";
-import { GRID_COLORS } from "../../constants/colors.js";
+import { GRID_COLORS } from "../../constants/colors";
 import { 
     convertCoordinateToDateLabel, 
     convertCoordinateToFinancialLabel, 
     convertCoordinateToOrgLabel 
-} from "../../utils/coordinateUtils.js";
+} from "../../utils/coordinateUtils";
 
 interface CoordinateSystemProps {
     range?: number;

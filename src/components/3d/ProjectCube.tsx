@@ -2,9 +2,9 @@ import { useRef, useState, memo } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import { Mesh } from "three";
-import { Project } from "../../types/project.js";
-import { RAG_COLORS, EXECUTION_COLORS, UI_COLORS } from "../../constants/colors.js";
-import { calculateCubeSize, calculateProjectDuration } from "../../utils/coordinateUtils.js";
+import { Project } from "../../types/project";
+import { RAG_COLORS, EXECUTION_COLORS, UI_COLORS } from "../../constants/colors";
+import { calculateCubeSize, calculateProjectDuration } from "../../utils/coordinateUtils";
 
 interface ProjectCubeProps {
     project: Project;

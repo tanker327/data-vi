@@ -1,5 +1,5 @@
 import React from "react";
-import { PortfolioStats } from "../../types/project.js";
+import { PortfolioStats } from "../../types/project";
 
 interface StatItemProps {
     label: string;

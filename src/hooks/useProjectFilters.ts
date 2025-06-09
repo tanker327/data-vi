@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ProjectFilters } from "../types/project.js";
+import { ProjectFilters } from "../types/project";
 
 const DEFAULT_FILTERS: ProjectFilters = {
     rag: "all",

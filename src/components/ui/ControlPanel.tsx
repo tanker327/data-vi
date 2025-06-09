@@ -1,5 +1,5 @@
 import React from "react";
-import { ProjectFilters } from "../../types/project.js";
+import { ProjectFilters } from "../../types/project";
 
 interface SelectOption {
     value: string;

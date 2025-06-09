@@ -1,4 +1,4 @@
-import Project3DVisualization from "./components/Project3DVisualization.js";
+import Project3DVisualization from "./components/Project3DVisualization";
 
 export default function App() {
     return (

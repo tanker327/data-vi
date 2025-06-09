@@ -1,4 +1,4 @@
-import { Project } from '../types/project.js';
+import { Project } from '../types/project';
 
 export const REAL_PROJECTS: Project[] = [
     {
