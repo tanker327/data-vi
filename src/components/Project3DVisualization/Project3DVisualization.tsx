@@ -35,6 +35,10 @@ export default function Project3DVisualization({ projects }: Project3DVisualizat
         setHoveredProject(project);
     }, [setHoveredProject]);
 
+    const handleBackgroundClick = useCallback(() => {
+        setSelectedProject(null);
+    }, [setSelectedProject]);
+
     return (
         <div className={styles.container}>
             <ControlPanel filters={filters} onFiltersChange={setFilters} />
@@ -43,6 +47,7 @@ export default function Project3DVisualization({ projects }: Project3DVisualizat
             <Canvas
                 camera={{ position: [15, 10, 15], fov: 80 }}
                 style={{ width: "100%", height: "100%" }}
+                onPointerMissed={handleBackgroundClick}
             >
                 {/* Lighting */}
                 <ambientLight intensity={0.4} />

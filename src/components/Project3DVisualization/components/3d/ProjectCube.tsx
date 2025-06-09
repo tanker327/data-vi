@@ -55,7 +55,10 @@ const ProjectCube = memo(function ProjectCube({
             {/* Main project cube */}
             <mesh
                 ref={cubeRef}
-                onClick={() => onSelect(project)}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    onSelect(project);
+                }}
                 onPointerOver={(e) => {
                     e.stopPropagation();
                     setHovered(true);
@@ -104,8 +107,8 @@ const ProjectCube = memo(function ProjectCube({
                 </mesh>
             )}
 
-            {/* Project information on hover/select */}
-            {(hovered || isSelected) && (
+            {/* Project information on select only */}
+            {isSelected && (
                 <Html distanceFactor={15} position={[0, cubeSize + 1, 0]}>
                     <div className={styles.tooltip}>
                         {/* Header Section */}
