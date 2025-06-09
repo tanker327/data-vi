@@ -1,6 +1,6 @@
 .panel {
   position: absolute;
-  top: 1rem;
+  top: 5px;
   right: 1rem;
   z-index: 10;
   background-color: rgba(0, 0, 0, 0.9);
@@ -15,6 +15,7 @@
   font-weight: bold;
   font-size: 1.125rem;
   margin-bottom: 0.5rem;
+  margin-top: 0;
   color: #86efac;
 }
 

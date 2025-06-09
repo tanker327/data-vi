@@ -41,8 +41,8 @@ export default function Project3DVisualization({ projects }: Project3DVisualizat
             <StatsPanel stats={stats} />
 
             <Canvas
-                camera={{ position: [15, 10, 15], fov: 60 }}
-                style={{ width: "100%", height: "90vh" }}
+                camera={{ position: [15, 10, 15], fov: 80 }}
+                style={{ width: "100%", height: "100%" }}
             >
                 {/* Lighting */}
                 <ambientLight intensity={0.4} />
