@@ -8,15 +8,19 @@ import ControlPanel from "./ui/ControlPanel";
 import StatsPanel from "./ui/StatsPanel";
 import Legend from "./ui/Legend";
 
-import { useProjectData, useFilteredProjects, usePositionedProjects, usePortfolioStats } from "../hooks/useProjectData";
+import { useFilteredProjects, usePositionedProjects, usePortfolioStats } from "../hooks/useProjectData";
 import { useProjectSelection } from "../hooks/useProjectSelection";
 import { useProjectFilters } from "../hooks/useProjectFilters";
+import { Project } from "../types/project";
 
-export default function Project3DVisualization() {
+interface Project3DVisualizationProps {
+    projects: Project[];
+}
+
+export default function Project3DVisualization({ projects }: Project3DVisualizationProps) {
     const { filters, setFilters } = useProjectFilters();
     const { selectedProject, setSelectedProject, setHoveredProject } = useProjectSelection();
 
-    const projects = useProjectData();
     const filteredProjects = useFilteredProjects(projects, filters);
     const positionedProjects = usePositionedProjects(filteredProjects);
     const stats = usePortfolioStats(filteredProjects);
