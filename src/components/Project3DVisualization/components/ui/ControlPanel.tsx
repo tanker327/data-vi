@@ -1,5 +1,6 @@
 import React from "react";
 import { ProjectFilters } from "../../types/project";
+import styles from "./ControlPanel.module.css";
 
 interface SelectOption {
     value: string;
@@ -189,7 +190,7 @@ export default function ControlPanel({ filters, onFiltersChange }: ControlPanelP
                         value={filters.rag}
                         onChange={(e) => updateFilter("rag", e.target.value)}
                         options={filterOptions.rag}
-                        colorClass="text-red-400"
+                        colorClass={styles.iconRed}
                     />
                     <CompactSelect
                         icon="⚡"
@@ -197,7 +198,7 @@ export default function ControlPanel({ filters, onFiltersChange }: ControlPanelP
                         value={filters.executionState}
                         onChange={(e) => updateFilter("executionState", e.target.value)}
                         options={filterOptions.executionState}
-                        colorClass="text-green-400"
+                        colorClass={styles.iconGreen}
                     />
                     <CompactSelect
                         icon="🏢"
@@ -205,7 +206,7 @@ export default function ControlPanel({ filters, onFiltersChange }: ControlPanelP
                         value={filters.organization}
                         onChange={(e) => updateFilter("organization", e.target.value)}
                         options={filterOptions.organization}
-                        colorClass="text-blue-400"
+                        colorClass={styles.iconBlue}
                     />
                     <CompactSelect
                         icon="📊"
@@ -213,7 +214,7 @@ export default function ControlPanel({ filters, onFiltersChange }: ControlPanelP
                         value={filters.benefitsLevel}
                         onChange={(e) => updateFilter("benefitsLevel", e.target.value)}
                         options={filterOptions.benefitsLevel}
-                        colorClass="text-purple-400"
+                        colorClass={styles.iconPurple}
                     />
                 </div>
             </div>

@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
+import styles from "./Project3DVisualization.module.css";
 
 import CoordinateSystem from "./components/3d/CoordinateSystem";
 import ProjectCube from "./components/3d/ProjectCube";
@@ -35,13 +36,13 @@ export default function Project3DVisualization({ projects }: Project3DVisualizat
     }, [setHoveredProject]);
 
     return (
-        <div className="w-full h-screen bg-gray-900 relative">
+        <div className={styles.container}>
             <ControlPanel filters={filters} onFiltersChange={setFilters} />
             <StatsPanel stats={stats} />
 
             <Canvas
                 camera={{ position: [15, 10, 15], fov: 60 }}
-                style={{ width: "100%", height: "600px" }}
+                style={{ width: "100%", height: "90vh" }}
             >
                 {/* Lighting */}
                 <ambientLight intensity={0.4} />

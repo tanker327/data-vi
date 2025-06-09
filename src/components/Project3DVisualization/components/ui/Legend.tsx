@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./Legend.module.css";
 
 interface LegendItemProps {
     icon: string;
@@ -7,7 +8,7 @@ interface LegendItemProps {
     colorClass?: string;
 }
 
-const LegendItem: React.FC<LegendItemProps> = ({ icon, label, description, colorClass = "text-cyan-400" }) => (
+const LegendItem: React.FC<LegendItemProps> = ({ icon, label, description, colorClass = styles.labelCyan }) => (
     <div>
         <span className={colorClass}>{icon} {label}:</span> {description}
     </div>
@@ -15,52 +16,52 @@ const LegendItem: React.FC<LegendItemProps> = ({ icon, label, description, color
 
 export default function Legend() {
     return (
-        <div className="absolute bottom-4 left-4 z-10 bg-black bg-opacity-90 text-white p-3 rounded-xl border border-yellow-500 shadow-2xl text-xs">
-            <div className="font-bold mb-2 text-yellow-300">
+        <div className={styles.legend}>
+            <div className={styles.title}>
                 🎮 Controls & Legend
             </div>
-            <div className="space-y-1">
+            <div className={styles.itemsContainer}>
                 <LegendItem
                     icon="🖱️"
                     label="Click"
                     description="Select project for details"
-                    colorClass="text-cyan-400"
+                    colorClass={styles.labelCyan}
                 />
                 <LegendItem
                     icon="🖱️"
                     label="Hover"
                     description="View project information"
-                    colorClass="text-purple-400"
+                    colorClass={styles.labelPurple}
                 />
                 <LegendItem
                     icon="🔄"
                     label="Drag"
                     description="Rotate 3D view"
-                    colorClass="text-yellow-400"
+                    colorClass={styles.labelYellow}
                 />
                 <LegendItem
                     icon="🔍"
                     label="Scroll"
                     description="Zoom in/out"
-                    colorClass="text-green-400"
+                    colorClass={styles.labelGreen}
                 />
                 <LegendItem
                     icon="📦"
                     label="Rotating"
                     description="In Progress projects"
-                    colorClass="text-red-400"
+                    colorClass={styles.labelRed}
                 />
                 <LegendItem
                     icon="💛"
                     label="Yellow cube"
                     description="BC Benefits Level"
-                    colorClass="text-blue-400"
+                    colorClass={styles.labelBlue}
                 />
                 <LegendItem
                     icon="🔵"
                     label="Cyan cylinder"
                     description="In Plan projects"
-                    colorClass="text-cyan-400"
+                    colorClass={styles.labelCyan}
                 />
             </div>
         </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { PortfolioStats } from "../../types/project";
+import styles from "./StatsPanel.module.css";
 
 interface StatItemProps {
     label: string;
@@ -7,10 +8,10 @@ interface StatItemProps {
     colorClass?: string;
 }
 
-const StatItem: React.FC<StatItemProps> = ({ label, value, colorClass = "text-cyan-400" }) => (
+const StatItem: React.FC<StatItemProps> = ({ label, value, colorClass = styles.labelCyan }) => (
     <div>
         <span className={colorClass}>{label}:</span>{" "}
-        <span className="font-bold">{value}</span>
+        <span className={styles.statValue}>{value}</span>
     </div>
 );
 
@@ -20,40 +21,40 @@ interface StatsPanelProps {
 
 export default function StatsPanel({ stats }: StatsPanelProps) {
     return (
-        <div className="absolute top-4 right-4 z-10 bg-black bg-opacity-90 text-white p-4 rounded-xl border border-green-500 shadow-2xl">
-            <h4 className="font-bold text-lg mb-2 text-green-300">
+        <div className={styles.panel}>
+            <h4 className={styles.title}>
                 📈 Portfolio Statistics
             </h4>
-            <div className="space-y-1 text-sm">
+            <div className={styles.statsContainer}>
                 <StatItem 
                     label="Total Projects" 
                     value={stats.totalProjects}
-                    colorClass="text-cyan-400"
+                    colorClass={styles.labelCyan}
                 />
                 <StatItem 
                     label="Total 2024 Live" 
                     value={`$${stats.total2024Live.toLocaleString()}`}
-                    colorClass="text-green-400"
+                    colorClass={styles.labelGreen}
                 />
                 <StatItem 
                     label="Total 2025 Live" 
                     value={`$${stats.total2025Live.toLocaleString()}`}
-                    colorClass="text-blue-400"
+                    colorClass={styles.labelBlue}
                 />
                 <StatItem 
                     label="RED Projects" 
                     value={stats.redProjects}
-                    colorClass="text-red-400"
+                    colorClass={styles.labelRed}
                 />
                 <StatItem 
                     label="In Progress" 
                     value={stats.inProgressProjects}
-                    colorClass="text-yellow-400"
+                    colorClass={styles.labelYellow}
                 />
                 <StatItem 
                     label="In Plan" 
                     value={stats.inPlanProjects}
-                    colorClass="text-purple-400"
+                    colorClass={styles.labelPurple}
                 />
             </div>
         </div>

@@ -5,6 +5,7 @@ import { Mesh } from "three";
 import { Project } from "../../types/project";
 import { RAG_COLORS, EXECUTION_COLORS, UI_COLORS } from "../../constants/colors";
 import { calculateCubeSize, calculateProjectDuration } from "../../utils/coordinateUtils";
+import styles from "./ProjectCube.module.css";
 
 interface ProjectCubeProps {
     project: Project;
@@ -106,34 +107,34 @@ const ProjectCube = memo(function ProjectCube({
             {/* Project information on hover/select */}
             {(hovered || isSelected) && (
                 <Html distanceFactor={15} position={[0, cubeSize + 1, 0]}>
-                    <div className="bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white rounded-xl shadow-2xl border border-cyan-400/40 backdrop-blur-lg p-0 overflow-hidden min-w-80 max-w-96">
+                    <div className={styles.tooltip}>
                         {/* Header Section */}
-                        <div className="bg-gradient-to-r from-cyan-600/20 to-blue-600/20 p-4 border-b border-gray-700/50">
-                            <div className="flex items-start justify-between">
-                                <div className="flex-1">
-                                    <h3 className="font-bold text-base text-cyan-300 leading-tight mb-1">
+                        <div className={styles.header}>
+                            <div className={styles.headerContent}>
+                                <div className={styles.headerMain}>
+                                    <h3 className={styles.title}>
                                         {project.title}
                                     </h3>
-                                    <div className="flex items-center gap-2 text-xs">
-                                        <span className="bg-gray-700/50 px-2 py-0.5 rounded text-gray-300">
+                                    <div className={styles.badgeContainer}>
+                                        <span className={styles.idBadge}>
                                             ID: {project.shortId}
                                         </span>
                                         {project.rag && (
-                                            <span className={`px-2 py-0.5 rounded font-medium ${
-                                                project.rag === 'RED' ? 'bg-red-500/20 text-red-300' :
-                                                project.rag === 'AMBER' ? 'bg-yellow-500/20 text-yellow-300' :
-                                                project.rag === 'GREEN' ? 'bg-green-500/20 text-green-300' :
-                                                'bg-blue-500/20 text-blue-300'
+                                            <span className={`${styles.badge} ${
+                                                project.rag === 'RED' ? styles.badgeRed :
+                                                project.rag === 'AMBER' ? styles.badgeAmber :
+                                                project.rag === 'GREEN' ? styles.badgeGreen :
+                                                styles.badgeBlue
                                             }`}>
                                                 {project.rag}
                                             </span>
                                         )}
                                         {project.executionState && (
-                                            <span className={`px-2 py-0.5 rounded font-medium ${
-                                                project.executionState === 'In Progress' ? 'bg-green-500/20 text-green-300' :
-                                                project.executionState === 'On Hold' ? 'bg-red-500/20 text-red-300' :
-                                                project.executionState === 'Planning' ? 'bg-yellow-500/20 text-yellow-300' :
-                                                'bg-blue-500/20 text-blue-300'
+                                            <span className={`${styles.badge} ${
+                                                project.executionState === 'In Progress' ? styles.badgeGreen :
+                                                project.executionState === 'On Hold' ? styles.badgeRed :
+                                                project.executionState === 'Planning' ? styles.badgeAmber :
+                                                styles.badgeBlue
                                             }`}>
                                                 {project.executionState}
                                             </span>
@@ -144,48 +145,48 @@ const ProjectCube = memo(function ProjectCube({
                         </div>
 
                         {/* Content Sections */}
-                        <div className="p-4 space-y-4">
+                        <div className={styles.content}>
                             {/* Key Info Grid */}
-                            <div className="grid grid-cols-2 gap-3 text-xs">
-                                <div className="bg-gray-800/30 rounded-lg p-2">
-                                    <div className="text-gray-400 mb-1">Owner</div>
-                                    <div className="text-white font-medium">{project.owner}</div>
+                            <div className={styles.infoGrid}>
+                                <div className={styles.infoCard}>
+                                    <div className={styles.infoLabel}>Owner</div>
+                                    <div className={styles.infoValue}>{project.owner}</div>
                                 </div>
-                                <div className="bg-gray-800/30 rounded-lg p-2">
-                                    <div className="text-gray-400 mb-1">Sponsor</div>
-                                    <div className="text-white font-medium">{project.sponsor || 'N/A'}</div>
+                                <div className={styles.infoCard}>
+                                    <div className={styles.infoLabel}>Sponsor</div>
+                                    <div className={styles.infoValue}>{project.sponsor || 'N/A'}</div>
                                 </div>
-                                <div className="bg-gray-800/30 rounded-lg p-2">
-                                    <div className="text-gray-400 mb-1">Duration</div>
-                                    <div className="text-white font-medium">{duration} years</div>
+                                <div className={styles.infoCard}>
+                                    <div className={styles.infoLabel}>Duration</div>
+                                    <div className={styles.infoValue}>{duration} years</div>
                                 </div>
-                                <div className="bg-gray-800/30 rounded-lg p-2">
-                                    <div className="text-gray-400 mb-1">Benefits</div>
-                                    <div className="text-white font-medium">{project.benefitsReportingLevel}</div>
+                                <div className={styles.infoCard}>
+                                    <div className={styles.infoLabel}>Benefits</div>
+                                    <div className={styles.infoValue}>{project.benefitsReportingLevel}</div>
                                 </div>
                             </div>
 
                             {/* Financial Information */}
-                            <div className="bg-gradient-to-r from-green-500/10 to-blue-500/10 rounded-lg p-3 border border-green-500/20">
-                                <div className="text-green-300 font-medium mb-2 text-sm flex items-center gap-1">
+                            <div className={styles.financialSection}>
+                                <div className={styles.financialHeader}>
                                     💰 Financial Overview
                                 </div>
-                                <div className="grid grid-cols-1 gap-2 text-xs">
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-300">2024 Live:</span>
-                                        <span className="text-green-300 font-mono">
+                                <div className={styles.financialGrid}>
+                                    <div className={styles.financialRow}>
+                                        <span className={styles.financialLabel}>2024 Live:</span>
+                                        <span className={`${styles.financialValue} ${styles.financialValueGreen}`}>
                                             ${(project.financials.live2024 || 0).toLocaleString()}
                                         </span>
                                     </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-300">2025 Live:</span>
-                                        <span className="text-blue-300 font-mono">
+                                    <div className={styles.financialRow}>
+                                        <span className={styles.financialLabel}>2025 Live:</span>
+                                        <span className={`${styles.financialValue} ${styles.financialValueBlue}`}>
                                             ${(project.financials.live2025 || 0).toLocaleString()}
                                         </span>
                                     </div>
-                                    <div className="flex justify-between border-t border-gray-600/30 pt-2">
-                                        <span className="text-gray-300 font-medium">Total Budget:</span>
-                                        <span className="text-cyan-300 font-mono font-bold">
+                                    <div className={`${styles.financialRow} ${styles.financialRowTotal}`}>
+                                        <span className={styles.financialLabelBold}>Total Budget:</span>
+                                        <span className={`${styles.financialValue} ${styles.financialValueCyan}`}>
                                             ${totalBudget.toLocaleString()}
                                         </span>
                                     </div>
@@ -194,24 +195,24 @@ const ProjectCube = memo(function ProjectCube({
 
                             {/* Organization Info */}
                             {project.l1OwningOrganization && (
-                                <div className="bg-gray-800/20 rounded-lg p-2 border-l-2 border-blue-400/50">
-                                    <div className="text-gray-400 text-xs mb-1">Organization</div>
-                                    <div className="text-blue-300 text-xs font-medium">
+                                <div className={styles.orgSection}>
+                                    <div className={styles.orgLabel}>Organization</div>
+                                    <div className={styles.orgValue}>
                                         {project.l1OwningOrganization}
                                     </div>
                                 </div>
                             )}
 
                             {/* Status Indicators */}
-                            <div className="flex items-center justify-between text-xs pt-2 border-t border-gray-700/50">
-                                <div className="flex items-center gap-2">
+                            <div className={styles.statusSection}>
+                                <div className={styles.statusBadges}>
                                     {project.inPlan === 'Yes' && (
-                                        <span className="bg-cyan-500/20 text-cyan-300 px-2 py-1 rounded text-xs">
+                                        <span className={`${styles.statusBadge} ${styles.statusBadgeCyan}`}>
                                             📋 In Plan
                                         </span>
                                     )}
                                     {project.openForTimeEntry === 'Yes' && (
-                                        <span className="bg-green-500/20 text-green-300 px-2 py-1 rounded text-xs">
+                                        <span className={`${styles.statusBadge} ${styles.statusBadgeGreen}`}>
                                             ⏰ Time Entry Open
                                         </span>
                                     )}

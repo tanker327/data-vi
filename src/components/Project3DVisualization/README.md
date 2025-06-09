@@ -22,14 +22,17 @@ This component requires the following peer dependencies:
   "react-dom": "^18.0.0",
   "@react-three/fiber": "^8.0.0",
   "@react-three/drei": "^9.0.0",
-  "three": "^0.150.0",
-  "tailwindcss": "^3.0.0"
+  "three": "^0.150.0"
 }
 ```
 
 ## Installation
 
 Copy the entire `Project3DVisualization` folder to your project's components directory.
+
+## Styling
+
+This component uses CSS Modules for styling and does not require any external CSS frameworks. All styles are self-contained within `.module.css` files.
 
 ## Usage
 
