@@ -9,7 +9,7 @@ import ControlPanel from "./components/ui/ControlPanel";
 import StatsPanel from "./components/ui/StatsPanel";
 import Legend from "./components/ui/Legend";
 
-import { useFilteredProjects, usePositionedProjects, usePortfolioStats } from "./hooks/useProjectData";
+import { useFilteredProjects, usePositionedProjects, usePortfolioStats, useCoordinateRanges } from "./hooks/useProjectData";
 import { useProjectSelection } from "./hooks/useProjectSelection";
 import { useProjectFilters } from "./hooks/useProjectFilters";
 import { Project } from "./types/project";
@@ -25,6 +25,7 @@ export default function Project3DVisualization({ projects }: Project3DVisualizat
     const filteredProjects = useFilteredProjects(projects, filters);
     const positionedProjects = usePositionedProjects(filteredProjects);
     const stats = usePortfolioStats(filteredProjects);
+    const coordinateRanges = useCoordinateRanges(filteredProjects);
 
     // Memoize callbacks to prevent unnecessary re-renders
     const handleProjectSelect = useCallback((project: any) => {
@@ -60,7 +61,7 @@ export default function Project3DVisualization({ projects }: Project3DVisualizat
                 <directionalLight position={[0, 20, 0]} intensity={0.6} />
 
                 {/* 3D Coordinate System */}
-                <CoordinateSystem range={10} />
+                <CoordinateSystem range={coordinateRanges.overall} ranges={coordinateRanges} />
 
                 {/* Render all project cubes */}
                 {positionedProjects.map((project) => (

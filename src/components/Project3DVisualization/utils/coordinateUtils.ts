@@ -102,3 +102,64 @@ export function convertCoordinateToOrgLabel(val: number): string {
 
     return orgMap[closest] || "";
 }
+
+export interface CoordinateRanges {
+    x: { min: number; max: number };
+    y: { min: number; max: number };
+    z: { min: number; max: number };
+    overall: number;
+}
+
+export function calculateCoordinateRanges(projects: Project[]): CoordinateRanges {
+    if (projects.length === 0) {
+        return {
+            x: { min: -5, max: 5 },
+            y: { min: -5, max: 5 },
+            z: { min: -5, max: 5 },
+            overall: 10
+        };
+    }
+
+    const positions = projects.map(project => calculateProjectPosition(project));
+    
+    const xValues = positions.map(pos => pos[0]);
+    const yValues = positions.map(pos => pos[1]);
+    const zValues = positions.map(pos => pos[2]);
+
+    const xMin = Math.min(...xValues);
+    const xMax = Math.max(...xValues);
+    const yMin = Math.min(...yValues);
+    const yMax = Math.max(...yValues);
+    const zMin = Math.min(...zValues);
+    const zMax = Math.max(...zValues);
+
+    // Add padding (20% of range) to ensure all projects are visible
+    const xRange = Math.max(xMax - xMin, 2);
+    const yRange = Math.max(yMax - yMin, 2);
+    const zRange = Math.max(zMax - zMin, 2);
+    
+    const xPadding = xRange * 0.2;
+    const yPadding = yRange * 0.2;
+    const zPadding = zRange * 0.2;
+
+    const paddedXMin = xMin - xPadding;
+    const paddedXMax = xMax + xPadding;
+    const paddedYMin = yMin - yPadding;
+    const paddedYMax = yMax + yPadding;
+    const paddedZMin = zMin - zPadding;
+    const paddedZMax = zMax + zPadding;
+
+    // Calculate overall range for grid system
+    const maxAbsX = Math.max(Math.abs(paddedXMin), Math.abs(paddedXMax));
+    const maxAbsY = Math.max(Math.abs(paddedYMin), Math.abs(paddedYMax));
+    const maxAbsZ = Math.max(Math.abs(paddedZMin), Math.abs(paddedZMax));
+    
+    const overall = Math.ceil(Math.max(maxAbsX, maxAbsY, maxAbsZ));
+
+    return {
+        x: { min: paddedXMin, max: paddedXMax },
+        y: { min: paddedYMin, max: paddedYMax },
+        z: { min: paddedZMin, max: paddedZMax },
+        overall
+    };
+}

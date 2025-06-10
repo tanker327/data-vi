@@ -5,14 +5,16 @@ import { GRID_COLORS } from "../../constants/colors";
 import { 
     convertCoordinateToDateLabel, 
     convertCoordinateToFinancialLabel, 
-    convertCoordinateToOrgLabel 
+    convertCoordinateToOrgLabel,
+    CoordinateRanges
 } from "../../utils/coordinateUtils";
 
 interface CoordinateSystemProps {
     range?: number;
+    ranges?: CoordinateRanges;
 }
 
-export default function CoordinateSystem({ range = 10 }: CoordinateSystemProps) {
+export default function CoordinateSystem({ range = 10, ranges }: CoordinateSystemProps) {
     const gridRef = useRef<Group>(null);
 
     interface GridLine {
@@ -87,7 +89,34 @@ export default function CoordinateSystem({ range = 10 }: CoordinateSystemProps) 
         return lines;
     }, [range]);
 
-    const coordinateLabels = [-8, -4, 0, 4, 8];
+    const coordinateLabels = useMemo(() => {
+        if (!ranges) {
+            return [-8, -4, 0, 4, 8];
+        }
+        
+        // Generate labels at meaningful positions based on actual data ranges
+        const xLabels: number[] = [];
+        const yLabels: number[] = [];
+        
+        // For X-axis (timeline), use evenly spaced intervals
+        const xRange = ranges.x.max - ranges.x.min;
+        const xStep = Math.max(1, Math.ceil(xRange / 5));
+        for (let i = Math.ceil(ranges.x.min); i <= Math.floor(ranges.x.max); i += xStep) {
+            xLabels.push(i);
+        }
+        
+        // For Y-axis (financials), use logarithmic scale
+        const yRange = ranges.y.max - ranges.y.min;
+        const yStep = Math.max(1, Math.ceil(yRange / 5));
+        for (let i = Math.ceil(ranges.y.min); i <= Math.floor(ranges.y.max); i += yStep) {
+            yLabels.push(i);
+        }
+        
+        // For Z-axis (organizations), use fixed positions since they're categorical
+        const zLabels = [-6, -2, 2, 6].filter(z => z >= ranges.z.min - 1 && z <= ranges.z.max + 1);
+        
+        return { x: xLabels, y: yLabels, z: zLabels };
+    }, [ranges]);
 
     return (
         <group ref={gridRef}>
@@ -138,37 +167,82 @@ export default function CoordinateSystem({ range = 10 }: CoordinateSystemProps) 
             </Text>
 
             {/* Coordinate value labels */}
-            {coordinateLabels.map((val) => (
-                <React.Fragment key={val}>
-                    <Text
-                        position={[val, -0.5, 0]}
-                        fontSize={0.3}
-                        color="#ff8888"
-                        anchorX="center"
-                        anchorY="middle"
-                    >
-                        {convertCoordinateToDateLabel(val)}
-                    </Text>
-                    <Text
-                        position={[0, val, -0.5]}
-                        fontSize={0.3}
-                        color="#88ff88"
-                        anchorX="center"
-                        anchorY="middle"
-                    >
-                        ${convertCoordinateToFinancialLabel(val)}
-                    </Text>
-                    <Text
-                        position={[-0.5, 0, val]}
-                        fontSize={0.3}
-                        color="#8888ff"
-                        anchorX="center"
-                        anchorY="middle"
-                    >
-                        {convertCoordinateToOrgLabel(val)}
-                    </Text>
-                </React.Fragment>
-            ))}
+            {typeof coordinateLabels === 'object' && 'x' in coordinateLabels ? (
+                <>
+                    {/* X-axis labels */}
+                    {coordinateLabels.x.map((val) => (
+                        <Text
+                            key={`x-${val}`}
+                            position={[val, -0.5, 0]}
+                            fontSize={0.3}
+                            color="#ff8888"
+                            anchorX="center"
+                            anchorY="middle"
+                        >
+                            {convertCoordinateToDateLabel(val)}
+                        </Text>
+                    ))}
+                    {/* Y-axis labels */}
+                    {coordinateLabels.y.map((val) => (
+                        <Text
+                            key={`y-${val}`}
+                            position={[0, val, -0.5]}
+                            fontSize={0.3}
+                            color="#88ff88"
+                            anchorX="center"
+                            anchorY="middle"
+                        >
+                            ${convertCoordinateToFinancialLabel(val)}
+                        </Text>
+                    ))}
+                    {/* Z-axis labels */}
+                    {coordinateLabels.z.map((val) => (
+                        <Text
+                            key={`z-${val}`}
+                            position={[-0.5, 0, val]}
+                            fontSize={0.3}
+                            color="#8888ff"
+                            anchorX="center"
+                            anchorY="middle"
+                        >
+                            {convertCoordinateToOrgLabel(val)}
+                        </Text>
+                    ))}
+                </>
+            ) : (
+                // Fallback for old format
+                coordinateLabels.map((val) => (
+                    <React.Fragment key={val}>
+                        <Text
+                            position={[val, -0.5, 0]}
+                            fontSize={0.3}
+                            color="#ff8888"
+                            anchorX="center"
+                            anchorY="middle"
+                        >
+                            {convertCoordinateToDateLabel(val)}
+                        </Text>
+                        <Text
+                            position={[0, val, -0.5]}
+                            fontSize={0.3}
+                            color="#88ff88"
+                            anchorX="center"
+                            anchorY="middle"
+                        >
+                            ${convertCoordinateToFinancialLabel(val)}
+                        </Text>
+                        <Text
+                            position={[-0.5, 0, val]}
+                            fontSize={0.3}
+                            color="#8888ff"
+                            anchorX="center"
+                            anchorY="middle"
+                        >
+                            {convertCoordinateToOrgLabel(val)}
+                        </Text>
+                    </React.Fragment>
+                ))
+            )}
         </group>
     );
 }

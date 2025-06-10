@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Project, ProjectFilters, PositionedProject, PortfolioStats } from "../types/project";
 import { generateProjectData } from "../data/projectData";
 import { filterProjects, calculatePortfolioStats } from "../utils/filterUtils";
-import { calculateProjectPosition } from "../utils/coordinateUtils";
+import { calculateProjectPosition, calculateCoordinateRanges, CoordinateRanges } from "../utils/coordinateUtils";
 
 export function useProjectData(): Project[] {
     const projects = useMemo(() => generateProjectData(), []);
@@ -40,4 +40,12 @@ export function usePortfolioStats(filteredProjects: Project[]): PortfolioStats {
     }, [filteredProjects]);
     
     return stats;
+}
+
+export function useCoordinateRanges(projects: Project[]): CoordinateRanges {
+    const ranges = useMemo(() => {
+        return calculateCoordinateRanges(projects);
+    }, [projects]);
+    
+    return ranges;
 }
